@@ -280,44 +280,275 @@ To view which processes use port `443`
 lsof -i :443
 ```
 
+
+##### Practice
+
+1. List the files in the /bin directory
+2. Display the type of file of `/bin/cat`, `/etc/passwd and`, `/usr/bin/passwd`
+3. Create a directory `~/touched` and enter it
+4. Create the files today.txt and yesterday.txt in touched
+5. Change the date on yesterday.txt to match yesterday's date
+6. Copy yesterday.txt to copy.yesterday.txt
+7. Rename copy.yesterday.txt to groundhogs_day.txt
+8. Create a directory called `~/testbackup` and copy all files from `~/touched` into it
+9. Use one command to remove the directory  `~/testbackup` and all files into it
+
 <a name="commands--filecontents"></a><a name="2.4"></a>
 #### File contents
 
 ##### head
 
+You can use `head` to display the first 10 lines of a file.
+
+```bash
+head /etc/passwd
+```
+
+It can also display the first n lines of a file.
+
+
+```bash
+head -20 /etc/passwd
+```
+
 ##### tail
+
+The `tail` command will display the last 10 lines of a file.
+
+
+```bash
+tail /etc/passwd
+```
+
+It can also display the first n lines of a file.
+
+```bash
+tail -20 /etc/passwd
+```
 
 ##### cat
 
+The `cat` command copies standard input to standard output.
+
+You can use cat to display a file on the screen.
+If the file is longer than the screen, it will scroll to the end.
+
+
+```bash
+cat /proc/partitions
+```
+
+This will display all partitions.
+For example you want to get partition name for USB drive you inserted to format it. You can use this command.
+
+You may use `cat` to create text files.
+Type the `cat > file_name.txt` command and then type some lines.
+After the last line, hold the Control (Ctrl) key and press d.
+
+
+`cat` also can be used to copy files:
+
+
+```bash
+cat js.txt
+```
+
+type some text, like
+
+```javascript
+let life = 21;
+
+let universe = 21;
+
+let answer = life + universe;
+```
+
+then you can copy the content fo js.txt to node_js.txt
+
+```bash
+cat js.txt > node_js.txt
+```
+
+
 ##### tac
+If the output of `cat js.txt` is:
+
+```javascript
+let life = 21;
+let universe = 21;
+let answer = life + universe;
+```
+
+then the output of `tac js.txt` will be:
+
+```javascript
+let answer = life + universe;
+let universe = 21;
+let life = 21;
+```
+
+Just one example will show you the purpose of tac (cat backwards).
 
 ##### more and less
+The `more` command is used to display files that take up more than one screen showing the content page by page.
+For going to the next page use the space bar and q to quit.
+
+`less` command is similar to more, but has the extended capability.
+It allows both forward and backward navigation through the file.
 
 ##### strings
+
+This command let's you display readable ascii strings found in (binary) files.
+
+Try out `cat /bin/ls` vs `strings /bin/ls/`.
+
+##### Practice
+
+1. Display the first 12 lines of /etc/services
+2. Display the last line of /etc/passwd
+3. Use cat to create a file named count.txt that looks like this:
+    ```txt
+    One
+    Two
+    Three
+    Four
+    Five
+    ```
+4. Use cp to make a backup of this file to `cnt.txt`
+5. Use cat to make a backup of this file to `catcnt.txt`
+6. Display `catcnt.txt`, but with all lines in reverse order
+7. Use more to display `/etc/services`
+8. Display the readable character strings from the `/usr/bin/passwd` command
+9. Read about `echo` and write 'this is the first line' to `tailing.txt` file with it
+10. Use cat to create a file named tailing.txt that contains the contents of `tailing.txt` followed
+by the contents of `/etc/passwd` (does not overwrite it)
+
 
 <a name="commands--filetree"></a><a name="2.5"></a>
 #### File tree
 
-##### filesystem hierarchy standard
-
-##### man hier
-
 ##### the root directory  /
 
-##### binary directories
+All GNU/Linux systems have a directory structure that starts at the root directory.
+The root directory is represented by a forward slash, like this: /.
+Everything that exists on your system can be found below this root directory.
 
-##### configuration  directories
+```bash
+ls /
+```
 
-##### data  directories
+See the content of the root directory.
 
-##### in  memory   directories
+##### /bin
+
+Binaries are files that contain compiled source code (or machine code).
+Binaries can be executed on the computer.
+Sometimes binaries are called executables.
+
+
+The /bin directory contains binaries for use by all users. Let us `ls` its content.
+
+```bash
+ls /bin
+```
+
+##### /lib
+
+Binaries found in `/bin` and `/sbin` often use shared libraries located in `/lib`.
+
+##### /opt
+
+The purpose of `/opt` is to store optional software.
+In many cases this is software from outside the distribution repository.
+You may find an empty `/opt` directory on many systems.
+A large package can install all its files in `/bin`, `/lib`, `/etc` subdirectories within `/opt/`
+$packagename/.
+
+If for example the package is called android_studio, then it installs in `/opt/android_studio`, putting
+binaries in `/opt/android_studio/bin` and man-pages in `/opt/android_studio/man`.
+
+##### /boot
+The /boot directory contains all files needed to boot the computer.
+On GNU/Linux systems you typically find the `/boot/grub` directory here.
+`/boot/grub` contains `/boot/grub/grub.cfg` or `/boot/grub/grub.conf` which
+defines the boot menu that is displayed before the kernel starts.
+
+##### /etc
+All of the machine-specific configuration files should be located in `/etc`.
+Many times the name of a configuration files is the same as the application,
+daemon, or protocol with `.conf` added as the extension.
+
+```bash
+ls /etc/*.conf
+```
+
+
+**/etc/hosts**
+
+Before the advent of a distributed domain name system
+networked computers used local files to map hostnames to IP addresses.
+
+```bash
+cat /etc/hosts
+```
+
+127.0.0.1   localhost
+
+127.0.1.1   user
+
+and some other addresses that you may have added.
+
+##### /media
+
+`/media` directory serves as a mount point for removable media devices such as CD-
+ROM's, digital cameras, and various usb-attached devices
+
+##### /tmp
+
+Applications and users should use /tmp to store temporary data when needed.
+Data stored in `/tmp` may use either disk space or RAM.
+Both of which are managed by the operating system.
+Never use `/tmp` to store data that is important or which you wish to archive.
+
+##### /dev
+The `/dev` directory is populated with files as the kernel is recognising hardware.
 
 ##### /usr  Unix  System  Resources
 
+The `/usr` hierarchy should contain shareable, read only data.
+
+The `/usr/bin` directory contains a lot of commands.
+
+The `/usr/lib` directory contains libraries that are not directly executed by users or scripts.
+
+The `/usr/local` directory can be used by an administrator to install software locally.
+
+The `/usr/src` directory is the recommended location for kernel source files.
+
 ##### /var  variable  data
 
+Files that are unpredictable in size, such as log, cache and spool files, should be located in
+`/var`.
+
+The `/var/log` directory serves as a central point to contain all log files.
+
+The `/var/cache` directory can contain cache data for several applications.
      
 **[⬆ back to top](#table-of-contents)**
+
+
+##### Practice
+
+1. Does the file `/bin/cat` exist ? What type is it?
+2. Use cat to display /etc/hosts and /etc/resolv.conf.
+What is your idea about the purpose of these files ?
+3. Display `/proc/cpuinfo`. On what architecture is your Linux running ?
+4. Can you enter the `/root` directory ? Are there (hidden) files ?
+5. Are ifconfig, fdisk, parted, shutdown and grub-install present in `/sbin`? Read about `/sbin'.
+Why are these binaries in `/sbin` and not in `/bin` ?
+6. Is `/var/log` a file or a directory ? What about `/var/spool`?
+7. Read the man page of random and explain the difference between `/dev/random` and /
+`dev/urandom`.
 
 ## Users
 

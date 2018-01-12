@@ -22,7 +22,7 @@ The GNU is a system that is used every day by many people all of the world. Alth
 Linux is just a part of this system. It is a kernel:
 the program in the system that allocates the machine's resources to the other programs that user runs.
 
-So instead of sounding smart and showing off let's be really smart and know thing in their right ways.
+So instead of sounding smart and showing off let's be really smart and know things in their right ways.
 
 You can read about GNU project following these links:
 
@@ -57,10 +57,23 @@ You can read about GNU project following these links:
   **Gentoo**
   - `Chrome OS, Google's commercial operating system`
 
-
 You may find and use other distributions.
 Each one will have its installation guide, just follow the steps and you'll be fine.
 You don't need to be a hacker to install an Ubuntu on your machine.
+Though consider which distribution suits your needs best.
+
+##### Which one to choose ?
+
+Distribution name | Reason(s) for using
+------------ | -------------
+Red Hat Enterprise (RHEL) | You are a manager and you want a good support contract.
+CentOS| You want Red Hat without the support contract from Red Hat.
+Fedora | You want Red Hat on your laptop/desktop.
+Linux Mint | You want a personal graphical desktop to play movies, music and games.
+Debian | Good for servers, laptops, and any other device.
+Ubuntu | Good for new users. Has a new release each 6 months.
+Kali | Designed for digital forensics and penetration testing. Good for hacking (they say).
+others | Advanced users may prefer Arch, Gentoo, OpenSUSE, Scientific, etc.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -70,6 +83,7 @@ You don't need to be a hacker to install an Ubuntu on your machine.
 #### Man pages
 Have you ever came across RTFM? It's an initialism for the expression "read the fucking manual".
 Everything could be found in manuals. But you may use search engines too.
+
 
 <a name="commands--directories"></a><a name="2.2"></a>
 #### Directories

@@ -45,7 +45,7 @@ You can read about GNU project following these links:
   **Debian**
   - `Ubuntu, a desktop and server distribution derived from Debian`
   - `Linux Mint Debian Edition`
-  - `Linux Mint, a distribution based on and compatible with Ubuntu.`
+  - `Linux Mint, a distribution based on and compatible with Ubuntu`
 
   **Fedora**
   - `Red Hat Enterprise Linux (RHEL)`
@@ -75,6 +75,17 @@ Ubuntu | Good for new users. Has a new release each 6 months.
 Kali | Designed for digital forensics and penetration testing. Good for hacking (they say).
 others | Advanced users may prefer Arch, Gentoo, OpenSUSE, Scientific, etc.
 
+![distros](./images/distros.jpg)
+
+Some useful links:
+
+- [distrowatch](https://distrowatch.com/)
+- [Red Hat](https://www.redhat.com/en)
+- [Debian](https://www.debian.org/)
+- [Linux Mint](https://www.linuxmint.com/)
+- [Ubuntu](https://www.ubuntu.com/)
+- [Gentoo](https://www.gentoo.org/)
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Commands
@@ -84,6 +95,19 @@ others | Advanced users may prefer Arch, Gentoo, OpenSUSE, Scientific, etc.
 Have you ever came across RTFM? It's an initialism for the expression "read the fucking manual".
 Everything could be found in manuals. But you may use search engines too.
 
+Type `man $command_name` to get information about the command. Let's get information about `man` command itself.
+
+```bash
+man man
+```
+
+Go ahead and read more about `man` command in your terminal.
+
+By the way, the second thing I tried with man command was:
+
+``` man woman ```
+
+And I got "No manual entry for woman". Well, I guess manual pages too can't have answers sometimes.
 
 <a name="commands--directories"></a><a name="2.2"></a>
 #### Directories

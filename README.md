@@ -9,16 +9,16 @@
       1. [File contents](#commands--filecontents)
       1. [File tree](#commands--filetree)
   1. [Users](#users)
-  1. [Groups](#groups)
+     1. [Intro](#users--intro)
+     1. [Groups](#users--groups)
   1. [Permissions](#permissions)
   
 
 ## History
 
-<a name="history--philosophy"></a><a name="1.2"></a>
+<a name="history--philosophy"></a>
 > Based on years of conversations, I am convinced that part of the cause of the problem is the tendency to call the system Linux rather than GNU, and describe it as open source rather than free software.
 > -- Richard Stallman
-
 
 What is GNU? GNU is a recursive acronym for "GNU's Not Unix!"
 
@@ -95,7 +95,7 @@ Some useful links:
 
 ## Commands
 
-<a name="commands--man"></a><a name="2.1"></a>
+<a name="commands--man"></a>
 #### Man pages
 Have you ever came across RTFM? It's an initialism for the expression "read the fucking manual".
 Everything (well, almost) could be found in manuals. But you may use search engines too.
@@ -114,7 +114,7 @@ By the way, the second thing I tried with man command was:
 
 And I got "No manual entry for woman". Well, I guess manual pages too can't have answers sometimes.
 
-<a name="commands--directories"></a><a name="2.2"></a>
+<a name="commands--directories"></a>
 #### Directories
 
 ##### pwd
@@ -210,7 +210,7 @@ directory.
 12. Read about `lsof` command for the next session.
 
 
-<a name="commands--files"></a><a name="2.3"></a>
+<a name="commands--files"></a>
 #### Files
 
 Some key points to remember about files:
@@ -293,7 +293,7 @@ lsof -i :443
 8. Create a directory called `~/testbackup` and copy all files from `~/touched` into it
 9. Use one command to remove the directory  `~/testbackup` and all files into it
 
-<a name="commands--filecontents"></a><a name="2.4"></a>
+<a name="commands--filecontents"></a>
 #### File contents
 
 ##### head
@@ -357,9 +357,7 @@ type some text, like
 
 ```javascript
 let life = 21;
-
 let universe = 21;
-
 let answer = life + universe;
 ```
 
@@ -424,7 +422,7 @@ Try out `cat /bin/ls` vs `strings /bin/ls/`.
 by the contents of `/etc/passwd` (does not overwrite it)
 
 
-<a name="commands--filetree"></a><a name="2.5"></a>
+<a name="commands--filetree"></a>
 #### File tree
 
 ##### the root directory  /
@@ -525,7 +523,7 @@ The `/usr/local` directory can be used by an administrator to install software l
 
 The `/usr/src` directory is the recommended location for kernel source files.
 
-##### /var  variable  data
+##### /var variable data
 
 Files that are unpredictable in size, such as log, cache and spool files, should be located in
 `/var`.
@@ -544,15 +542,15 @@ The `/var/cache` directory can contain cache data for several applications.
 What is your idea about the purpose of these files ?
 3. Display `/proc/cpuinfo`. On what architecture is your Linux running ?
 4. Can you enter the `/root` directory ? Are there (hidden) files ?
-5. Are ifconfig, fdisk, parted, shutdown and grub-install present in `/sbin`? Read about `/sbin'.
-Why are these binaries in `/sbin` and not in `/bin` ?
+5. Are ifconfig, fdisk, parted, shutdown and grub-install present in `/sbin`?
+Read about `/sbin`. Why are these binaries in `/sbin` and not in `/bin` ?
 6. Is `/var/log` a file or a directory ? What about `/var/spool`?
 7. Read the man page of random and explain the difference between `/dev/random` and /
 `dev/urandom`.
 
 ## Users
 
-<a name="users--intro"></a><a name="3.1"></a>
+<a name="users--intro"></a>
 #### Intro
 
 ##### whoami
@@ -580,30 +578,117 @@ You can also su to become root, when you know the root password.
 su root
 ```
 
-<a name="users--profiles"></a><a name="3.2"></a>
-#### User profiles
+##### user management
 
-##### system  profile
+If you are a novice user, you may use the graphical tools provided by your distribution to manage users.
+But you won't learn if you use graphical tool always.
 
-##### ~/.bash_profile
-      
-## Groups
 
-<a name="groups--intro"></a><a name="4.1"></a>
+The local user database on GNU/Linux is `/etc/passwd`. We were getting its content many times. Let's do once again.
+
+```bash
+tail /etc/passwd
+```
+
+The output contains 7 columns.
+These columns are:
+username, an x, the user id, the primary group id, a description, the name of the home
+directory, and the login shell.
+
+On GNU/Linux system the most powerful account is the root user. Let's see in `/etc/passwd`
+
+```bash
+sfast@sfast:~$ head -1 /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+```
+The root user has userid 0.
+
+
+Add user with `useradd` command.
+Let's add `marvin` user with the following arguments:
+
+force the creation of the home directory (-m)
+set the name of the home directory (-d)
+set a description (-c)
+
+```bash
+useradd -m -d /home/marvin -c "marvin paranoid android" marvin
+tail -1 /etc/passwd
+```
+
+We will see tail result
+
+```
+marvin:x:1001:1001:marvin paranoid android:/home/marvin:
+```
+
+You can delete the user `marvin` with `userde`l. The `-r` option of `userdel` will also remove the
+home directory.
+
+User password is set with the `passwd` command. You will need to provide
+old password before twice entering the new one.
+
+Passwords are encrypted and kept in `/etc/shadow`. The `/etc/shadow` is read only file and only by root.
+
+
+<a name="users--groups"></a>
 #### Groups
+Users can be listed in groups.
+Instead of setting permissions for each user, groups allow to set permissions on the group level.
 
-##### groupadd
+Groups can be created with the `groupadd command`.
+The example below shows the creation of a group.
 
-##### usermod
+```bash
+groupadd nerds
+```
 
-##### groups
+Users can be a member of several groups.
+Group membership is defined by the `/etc/group` file.
 
+Let's `cat` its content.
+
+Group membership can be modified with the `useradd` or `usermod` command.
+
+Be careful when using `usermod` to add users to groups.
+It will will remove the user from every group of which he is a member
+if the group is not listed in the command/
+
+Using append option `-a` prevents this.
+
+```bash
+usermod -a -G nerds marvin
+```
+
+Modify group name with the `groupmod` command.
+
+```bash
+groupmod -n new_name old_name
+```
+
+To remove a group permanently use `groupdel` command.
+
+You can give control of managing group membership to another user with the `gpasswd` command.
+
+```bash
+gpasswd -A user_name group_name
+```
+
+
+##### Practice
+
+1. Create the groups `react`, `node` and `other`
+2. Create new user called `intern`
+3. In one command, make `intern` a member of `react` and `node`
+4. Rename the `other` group to `phaser`
+6. Make someone responsible for managing group membership of `react` and `phaser`. Test that
+it works.
 
 **[⬆ back to top](#table-of-contents)**
 
 ## Permissions
 
-<a name="permissions--file"></a><a name="5.1"></a>
+<a name="permissions--file"></a>
 #### File permissions
 
 ##### file ownership

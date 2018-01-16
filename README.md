@@ -12,7 +12,12 @@
      1. [Intro](#users--intro)
      1. [Groups](#users--groups)
   1. [Permissions](#permissions)
-  
+     1. [File ownership](#permissions--fileownership)
+     1. [List of special files](#permissions--specialfiles)
+     1. [Permissions](#permissions--permissions)
+  1. [Other](#other)
+     1. [Runlevels](#other--runlevels)
+     1. [Useful commands](#other--commands)
 
 ## History
 
@@ -688,14 +693,56 @@ it works.
 
 ## Permissions
 
-<a name="permissions--file"></a>
-#### File permissions
+<a name="permissions--fileownership"></a>
+##### File ownership
 
-##### file ownership
+Let us `cd` to a folder where we could find some files.
 
-##### list of special files
+I'll choose `Downloads` where there is a file called `hitchhikers_guide_to_the_galaxy`.
 
-##### permissions
+I want to see whom does this file belong to.
+
+```bash
+ls -l hitchhikers_guide_to_the_galaxy
+```
+
+The output is `-rw-rw-r-- 1 sfast sfast 8364061 Հնվ 15 12:10 hitchhikers_guide_to_the_galaxy`.
+
+So this file belongs to user `sfast` who is in the group that has the same name.
+
+We can change the group owner of a file using the `chgrp` command.
+
+```bash
+chgrp books hitchhikers_guide_to_the_galaxy
+```
+I changed the group owner of a file to be `books`.
+
+The user owner of a file can be changed with `chown` command.
+
+```bash
+chown ford hitchhikers_guide_to_the_galaxy
+```
+
+You can also use `chown` to change both the user owner and the group owner.
+
+```bash
+chown marvin:group42 hitchhikers_guide_to_the_galaxy
+```
+
+<a name="permissions--specialfiles"></a>
+##### List of special files
+
+<a name="permissions--permissions"></a>
+##### Permissions
 
 **[⬆ back to top](#table-of-contents)**
 
+## Other
+
+<a name="other--runlevels"></a>
+##### Runlevels
+
+<a name="other--commands"></a>
+##### Useful commands
+
+**[⬆ back to top](#table-of-contents)**

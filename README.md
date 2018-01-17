@@ -188,7 +188,7 @@ This will create directory in your current directory.
 Give absolute path to create anywhere else.
 
 ```bash
-mkdir /home/user/some_dir_name_/mydir
+mkdir /home/user/some_dir_name/mydir
 ```
 
 Type `mkdir -p dir_name/sub_dir_name` to create both dir_name and sub_dir_name directories if dir_name does not exist yet.

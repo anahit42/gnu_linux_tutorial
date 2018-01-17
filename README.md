@@ -17,6 +17,8 @@
      1. [Permissions](#permissions--permissions)
   1. [Other](#other)
      1. [Runlevels](#other--runlevels)
+     1. [Process Management](#other--processmanagement)
+     1. [SSH](#other--ssh)
      1. [Useful commands](#other--commands)
 
 ## History
@@ -732,8 +734,132 @@ chown marvin:group42 hitchhikers_guide_to_the_galaxy
 <a name="permissions--specialfiles"></a>
 ##### List of special files
 
+When using `ls -l` the output includes 10 characters before the user and group owner.
+
+This table describes the function of all 10 characters.
+
+character position | function
+------------ | -------------
+1 | file type
+2-4 | permissions for the user owner
+5-7 | permissions for the group owner
+8-10| permissions for others
+
+
+The user owner permissions apply to you when you are the user owner of a file.
+
+The group owner permissions apply to you when you are the group owner of a file.
+
+The others permissions apply to you when you are not the user owner of a file and
+you do not belong to the group owner.
+
+As we said the first character tells us the type of file and it can be one from the following list:
+
+Character | File type
+------------ | -------------
+\- | regular file
+d | directory
+l | symbolic link
+p | named pipe
+b | block device
+c | character device
+s | socket
+
+
 <a name="permissions--permissions"></a>
 ##### Permissions
+
+The 9 characters following the first one, i.e. the file type, show the permissions of the file.
+
+Permission types are:
+
+permission | for a file | for a directory
+------------ | ------------- | -------------
+r (read) | read file contents (`cat`)  | read directory contents (`ls`)
+w (write) | change file contents (`vi`) | create files in (`touch`)
+x (execute) | execute the file | enter the directory (`cd`)
+
+
+Permissions can be changed with `chmod`. The first example gives the user owner execute
+permissions.
+
+```bash
+ls -l example.txt
+```
+
+Outputs `-rw-r--r-- 1 sfast sfast 0 2018-01-01 22:34 example.txt`.
+
+
+This command gives the user owner execute permissions.
+
+```bash
+chmod u+x example.txt
+```
+
+This command removes the others read permission.
+
+```bash
+chmod o-r example.txt
+```
+
+You may come across the octal permissions when you work with or read about permission.
+It is old school way of setting permissions :)
+
+Calculate permission digits by adding numbers below
+
+number | permission
+------------ | -------------
+4 | read (r)
+2 | write (w)
+1 | execute (x)
+
+Octal permissions table:
+
+binary | octal | permission
+------------ | ------------- | -------------
+000 | 0 | \---
+001 | 1 | \--x
+010 | 2 | \-w-
+011 | 3 | \-wx
+100 | 4 | r--
+101 | 5 | r-x
+110 | 6 | rw-
+111 | 7 | rwx
+
+Let's transform for example `rwxrwxrwx` to octal.
+
+`rwxrwxrwx` contains 3 `rwx`, one for each: user owner, group owner, other.
+
+If we represent each `rwx` with `7` we will get `777`, which is equal to `rwxrwxrwx`.
+
+The chmod command accepts these numbers.
+
+```bash
+chmod 777 example.txt
+```
+
+Please note that setting `777` is a bad idea in most cases.
+
+##### Practice
+
+1. Create a directory `~/permissions`. Create a file owned by yourself in there.
+2. Copy a file owned by `root` from `/etc/` to your `permissions` directory, who owns this file now ?
+3. As root, create a file in the users `~/permissions` directory.
+4. As normal user, look at who owns this file created by root.
+5. Change the ownership of all files in ~/permissions to yourself.
+6. Make sure you have all rights to these files, and others can only read.
+7. With chmod, is `770` the same as `rwxrwx---` ?
+8. With chmod, is `664` the same as `r-xr-xr--` ?
+9. With chmod, is `400 `the same as `r--------` ?
+10. With chmod, is `734` the same as `rwxr-xr--` ?
+11. Create a file as `root`, give only read to others. Can a normal user read this file? Test
+writing to this file.
+12. Create a file as normal user, give only read to others. Can another normal user read this
+file? Test writing to this file.
+13. Can `root` read this file? Can `root` write to this file?
+14. Create a directory that belongs to a group, where every member of that group can read
+and write to files, and create files. Make sure that people can only delete their own files.
+
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -741,8 +867,100 @@ chown marvin:group42 hitchhikers_guide_to_the_galaxy
 
 <a name="other--runlevels"></a>
 ##### Runlevels
+A `runlevel` is one of the modes that a Unix-based operating system will run in.
+Each `runlevel` has a certain number of services stopped or started.
+Seven `runlevels` exist, numbered from `0` to `6`.
+
+
+run level | mode| action
+------------ | ------------- | -------------
+0 | halt | shuts down system
+1 |	single-user mode | does not configure network interfaces, start daemons, or allow non-root logins
+2 | multi-user mode	| does not configure network interfaces or start daemons
+3 | multi-user mode with networking	| starts the system normally
+4 | undefined | not used/user-definable
+5 | X11 | as run level 3 + display manager(X)
+6 | reboot | reboots the system
+
+By default GNU/Linux system boots either to runlevel `3` or to runlevel `5`.
+
+The first one permits the system to run all services except for a GUI.
+The second one allows all services including a GUI.
+
+Booting into a different runlevel can help solve certain problems.
+
+For example, if a machine will not boot due to a damaged configuration file or will not allow logging in
+because of a corrupted `/etc/passwd` file or because of a forgotten password, the problem can solved by first
+booting into single-user mode (i.e. runlevel 1).
+
+
+<a name="other--processmanagement"></a>
+##### Process management
+
+`ps` – displays your currently active processes.
+
+`top` – displays all running processes
+
+`kill pid` – kills process id pid
+
+`pkill name` – kills process with name `name`
+
+`killall name` – kills all processes with names beginning `name`
+
+`bg` – lists stopped or background jobs; resume a stopped job in the background
+
+`fg` – brings the most recent job to foreground
+
+`fg n` – brings job n to the foreground
+
+<a name="other--ssh"></a>
+##### SSH
+All modern Unix-like systems include a command-line ssh client.
+To login to your computer from a Unix-like machine, go to a command-line and type:
+
+```bash
+ssh <username>@<computer name or IP address>
+```
+
+You should get the usual password prompt. You can set ssh key
+if you want to authenticate using keys instead of passwords.
+
+[Setting SSH key](https://help.ubuntu.com/community/SSH/OpenSSH/Keys)
 
 <a name="other--commands"></a>
 ##### Useful commands
+
+`grep pattern files` – search for `pattern` in `files`
+
+`grep -r pattern dir` – search recursively for `pattern` in `dir`
+
+`grep -i` – case insensitive search
+
+`grep -r` – recursive search
+
+`grep -v` – inverted search
+
+`grep -o` – show matched part of file only
+
+`locate file` – find all instances of file
+
+
+`exit` – log out of current session
+
+`Ctrl+C` – halts the current command
+
+`Ctrl+D` – log out of current session, similar to exit
+
+`Ctrl+W` – erases one word in the current line
+
+`Ctrl+U` – erases the whole line
+
+`Ctrl+R` – type to bring up a recent command
+
+`!!` – repeats the last command
+
+`!abc` – Run last command starting with abc
+
+
 
 **[⬆ back to top](#table-of-contents)**
